@@ -18,18 +18,13 @@
 	"tabWidth": 2,
 	"useTabs": true,
 	"embeddedLanguageFormatting": "auto",
+	"plugins": ["@trivago/prettier-plugin-sort-imports"],
 	"importOrder": [
-		"<THIRD_PARTY_MODULES>",
-		"interface",
-		"(?=content|api)",
-		"context/",
-		"mock/",
-		"config",
-		"utils/",
-		"hooks/",
-		"(components/|./index)",
-		".svg",
-		"^../(.*)$",
-		"(?=./styles.module.scss)"
-	]
+		"^react",
+		"^components/(.*)$",
+		"^[./]",
+		"^.(css|scss)$",
+		"<THIRD_PARTY_MODULES>"
+	],
+	"importOrderSeparation": true
 }

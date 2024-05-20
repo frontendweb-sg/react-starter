@@ -12,14 +12,15 @@ import Select from "./components/ui/Select";
 import Tabs from "./components/ui/Tabs";
 import Typography from "./components/ui/Typography";
 import {useAppState} from "./hooks/useAppState";
+import useToggle from "./hooks/useToggle";
 import router from "./router";
 
 import {upperFirst} from "lodash";
 
 function App() {
 	const {handleConfirm} = useAppState();
-
-	const handleClose = () => {
+	const {open, handleToggle, handleClose} = useToggle();
+	const onConfirm = () => {
 		handleConfirm({
 			onSubmit() {
 				alert("Are you sure?");
@@ -28,6 +29,13 @@ function App() {
 	};
 	return (
 		<>
+			<button onClick={handleToggle}>Open Modal</button>
+			<Modal open={open} onClose={handleClose} label="Hi, I am modal">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit provident
+				beatae eius? Neque earum, voluptatum doloribus praesentium provident
+				pariatur sapiente nam sint accusantium cum sit, corrupti omnis deserunt
+				ab! Exercitationem!
+			</Modal>
 			<RouterProvider router={router} />
 			<Accordion>
 				<Accordion.Item>
@@ -49,7 +57,7 @@ function App() {
 					</Accordion.Content>
 				</Accordion.Item>
 			</Accordion>
-			<Modal />
+
 			<Input startIcon={<FaH />} name="Home" />
 			<h1>{upperFirst("Hello")}</h1>
 			<Typography component="div">
@@ -63,7 +71,7 @@ function App() {
 			<Radio />
 			<Checkbox />
 			<ConfirmBox />
-			<button onClick={handleClose}>CLick</button>
+			<button onClick={onConfirm}>CLick</button>
 		</>
 	);
 }

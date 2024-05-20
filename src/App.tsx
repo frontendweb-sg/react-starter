@@ -4,22 +4,33 @@ import {RouterProvider} from "react-router-dom";
 import Accordion from "./components/ui/Accordion";
 import Autocomplete from "./components/ui/Autocomplete";
 import Checkbox from "./components/ui/Checkbox";
+import ConfirmBox from "./components/ui/ConfirmBox";
 import Input from "./components/ui/Input";
 import Modal from "./components/ui/Modal";
 import Radio from "./components/ui/Radio";
 import Select from "./components/ui/Select";
 import Tabs from "./components/ui/Tabs";
 import Typography from "./components/ui/Typography";
+import {useAppState} from "./hooks/useAppState";
 import router from "./router";
 
 import {upperFirst} from "lodash";
 
 function App() {
+	const {handleConfirm} = useAppState();
+
+	const handleClose = () => {
+		handleConfirm({
+			onSubmit() {
+				alert("Are you sure?");
+			},
+		});
+	};
 	return (
 		<>
 			<RouterProvider router={router} />
 			<Accordion>
-				<Accordion.Item value="item-1">
+				<Accordion.Item>
 					<Accordion.Header>Hello</Accordion.Header>
 					<Accordion.Content>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
@@ -28,7 +39,7 @@ function App() {
 						Fugit.
 					</Accordion.Content>
 				</Accordion.Item>
-				<Accordion.Item value="item-2">
+				<Accordion.Item>
 					<Accordion.Header>Hello</Accordion.Header>
 					<Accordion.Content>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
@@ -51,6 +62,8 @@ function App() {
 			<Tabs />
 			<Radio />
 			<Checkbox />
+			<ConfirmBox />
+			<button onClick={handleClose}>CLick</button>
 		</>
 	);
 }

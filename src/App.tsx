@@ -1,5 +1,5 @@
-import {FaH} from "react-icons/fa6";
 import Accordion from "./components/ui/Accordion";
+import {FaH} from "react-icons/fa6";
 import Input from "./components/ui/Input";
 import Modal from "./components/ui/Modal";
 import Typography from "./components/ui/Typography";

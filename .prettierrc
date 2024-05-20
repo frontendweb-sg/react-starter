@@ -17,5 +17,19 @@
 	"requirePragma": false,
 	"tabWidth": 2,
 	"useTabs": true,
-	"embeddedLanguageFormatting": "auto"
+	"embeddedLanguageFormatting": "auto",
+	"importOrder": [
+		"<THIRD_PARTY_MODULES>",
+		"interface",
+		"(?=content|api)",
+		"context/",
+		"mock/",
+		"config",
+		"utils/",
+		"hooks/",
+		"(components/|./index)",
+		".svg",
+		"^../(.*)$",
+		"(?=./styles.module.scss)"
+	]
 }

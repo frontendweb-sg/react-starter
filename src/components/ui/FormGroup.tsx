@@ -6,6 +6,7 @@ import classNames from "classnames";
 export type FormGroupProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
 	label?: string;
 	error?: string;
+	labelFor?: string;
 };
 type Props = PropsWithRef<FormGroupProps>;
 
@@ -14,7 +15,7 @@ type Props = PropsWithRef<FormGroupProps>;
  */
 const FormGroup = memo(
 	forwardRef(function FormGroup(
-		{children, label, className, ...rest}: Props,
+		{children, label, className, labelFor, ...rest}: Props,
 		ref: ForwardedRef<HTMLDivElement>,
 	) {
 		return (
@@ -23,7 +24,9 @@ const FormGroup = memo(
 				className={classNames("mb-3 relative", className)}
 				{...rest}>
 				{label && (
-					<label className="block text-slate-500 text-xs font-medium mb-2">
+					<label
+						htmlFor={labelFor}
+						className="block text-slate-500 text-xs font-medium mb-2">
 						{label}
 					</label>
 				)}

@@ -7,7 +7,6 @@ export default function useClickOutside<T extends HTMLElement>(
 	const handler = useCallback(
 		(event: Event) => {
 			if (ref.current && !ref.current.contains(event.target as Node)) {
-				console.log("Hi");
 				fn?.();
 			}
 		},

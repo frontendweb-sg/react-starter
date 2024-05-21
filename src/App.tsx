@@ -6,6 +6,7 @@ import Form from "./components/ui/Form";
 import Grid from "./components/ui/Grid";
 import Input from "./components/ui/Input";
 import Select from "./components/ui/Select";
+import Tabs, {TabContent} from "./components/ui/Tabs";
 import Textarea from "./components/ui/Textarea";
 import Typography from "./components/ui/Typography";
 
@@ -58,67 +59,16 @@ function App() {
 			console.log("values", values);
 		},
 	});
-	console.log("Hi");
-	return (
-		<Grid gridCols="4" className="gap-5">
-			<Col>
-				<Typography>Buttons</Typography>
-				<Button block>Hello World</Button>
-				<Button pills color="info" disabled>
-					Hello World
-				</Button>
-				<Button color="warning">Hello World</Button>
-				<Button color="danger">Hello World</Button>
-				<Button variant="outlined" color="danger">
-					Hello World
-				</Button>
-			</Col>
-			<Col>
-				<Form onSubmit={handleSubmit}>
-					<Input
-						label="Name"
-						name="name"
-						value={values.name}
-						startIcon={<FaUser />}
-						endIcon={<FaUsers />}
-						onChange={handleChange}
-					/>
-					<Input
-						label="Email"
-						value={values.email}
-						name="email"
-						onChange={handleChange}
-					/>
-					<Select
-						label="Gender"
-						name="gender"
-						value={values.gender}
-						options={genderOption}
-						onChange={setFieldValue}
-						startIcon={<FaUser />}
-					/>
 
-					<Select
-						label="Users"
-						name="user"
-						value={values.user}
-						options={users}
-						onChange={setFieldValue}
-						startIcon={<FaUser />}
-						getOptionLabel={(option) => option.title}
-					/>
-					<Textarea
-						name="summary"
-						placeholder="Summary"
-						rows={5}
-						startIcon={<FaMessage />}
-						value={values.summary}
-						onChange={handleChange}
-					/>
-					<Button type="submit">Send</Button>
-				</Form>
-			</Col>
-		</Grid>
+	return (
+		<Input
+			label="Name"
+			name="name"
+			value={values.name}
+			startIcon={<FaUser />}
+			endIcon={<FaUsers />}
+			onChange={handleChange}
+		/>
 	);
 }
 

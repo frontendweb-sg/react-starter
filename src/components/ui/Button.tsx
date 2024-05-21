@@ -53,6 +53,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	size?: keyof typeof sizeMapping;
 	pills?: boolean;
 	icon?: ReactElement;
+	block?: boolean;
 };
 
 const Button = memo(function Button({
@@ -62,13 +63,15 @@ const Button = memo(function Button({
 	variant = "filled",
 	pills = false,
 	icon,
+	block = false,
 	className,
 	...rest
 }: ButtonProps) {
 	const colors = variantMaping[variant];
 	const css = classNames(
-		"inline-flex gap-2 items-center",
+		"inline-flex gap-2 items-center justify-center relative",
 		pills ? "rounded-full" : "rounded-md",
+		block && "w-full",
 		colors[color as keyof typeof colors],
 		sizeMapping[size],
 		className,

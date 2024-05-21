@@ -1,4 +1,4 @@
-import Radio, {RadioProps} from "./Radio";
+import Radio, {type RadioProps} from "./Radio";
 
 import classNames from "classnames";
 

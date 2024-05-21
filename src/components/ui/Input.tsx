@@ -26,7 +26,7 @@ export default function Input({
 	const inputId = useId();
 	return (
 		<FormGroup label={label} labelFor={inputId} {...formGroupProps}>
-			<div className="flex items-center ring-slate-800  hover:bg-gray-50 border border-gray-150 rounded-md relative">
+			<div className="flex items-center font-small   hover:bg-gray-50 ring-1 ring-gray-200 rounded-md relative hover:ring-indigo-300">
 				{startIcon && (
 					<span className="pl-3" aria-hidden="true">
 						{startIcon}
@@ -40,7 +40,7 @@ export default function Input({
 					placeholder={placeholder ?? label}
 					aria-describedby={inputId}
 					aria-labelledby={inputId}
-					className="text-sm font-lato bg-transparent w-full p-3 outline-none placeholder:font-normal"
+					className="bg-transparent w-full p-3 outline-none placeholder:font-normal"
 					{...rest}
 				/>
 				{endIcon && (

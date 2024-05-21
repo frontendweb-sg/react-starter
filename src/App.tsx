@@ -5,6 +5,8 @@ import Col from "./components/ui/Col";
 import Form from "./components/ui/Form";
 import Grid from "./components/ui/Grid";
 import Input from "./components/ui/Input";
+import Radio from "./components/ui/Radio";
+import RadioGroup from "./components/ui/RadioGroup";
 import Select from "./components/ui/Select";
 import Tabs, {TabContent} from "./components/ui/Tabs";
 import Textarea from "./components/ui/Textarea";
@@ -47,7 +49,7 @@ const users = [
 ];
 
 function App() {
-	const {values, handleChange, setFieldValue, handleSubmit} = useFormik({
+	const {values, handleChange} = useFormik({
 		initialValues: {
 			name: "",
 			email: "",
@@ -60,15 +62,28 @@ function App() {
 		},
 	});
 
+	console.log("vales", values);
 	return (
-		<Input
-			label="Name"
-			name="name"
-			value={values.name}
-			startIcon={<FaUser />}
-			endIcon={<FaUsers />}
-			onChange={handleChange}
-		/>
+		<div className="p-5">
+			<RadioGroup
+				vertical
+				onChange={handleChange}
+				defaultValue={values.gender}
+				options={[
+					{name: "gender", value: "female", label: "Female"},
+					{name: "gender", value: "male", label: "Male"},
+				]}
+			/>
+
+			<Input
+				name="name"
+				placeholder="Enter name"
+				value={values.name}
+				startIcon={<FaUser />}
+				endIcon={<FaUsers />}
+				onChange={handleChange}
+			/>
+		</div>
 	);
 }
 

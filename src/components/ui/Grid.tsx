@@ -6,23 +6,23 @@ import {tailwindClassesMapping} from "../../utils/tailwind-css-utils";
 import classNames from "classnames";
 
 type GridProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
-	gridCols?: GridCols;
-	gridRows?: GridRows;
+	cols?: GridCols;
+	rows?: GridRows;
 };
 const Grid = memo(function GridComponent({
-	gridCols,
-	gridRows,
+	cols,
+	rows,
 	children,
 	className,
 	...rest
 }: GridProps) {
 	const css = classNames(
-		"grid",
+		"grid relative",
 		tailwindClassesMapping.gridCols[
-			gridCols as keyof typeof tailwindClassesMapping.gridCols
+			cols as keyof typeof tailwindClassesMapping.gridCols
 		],
 		tailwindClassesMapping.gridRows[
-			gridRows as keyof typeof tailwindClassesMapping.gridRows
+			rows as keyof typeof tailwindClassesMapping.gridRows
 		],
 		className,
 	);

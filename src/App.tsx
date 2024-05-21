@@ -1,5 +1,6 @@
 import {FaUser, FaUsers} from "react-icons/fa6";
 
+import UserForm from "./components/forms/User";
 import Checkbox from "./components/ui/Checkbox";
 import CheckboxGroup from "./components/ui/CheckboxGroup";
 import Input from "./components/ui/Input";
@@ -53,6 +54,8 @@ function App() {
 				onChange={handleChange}
 			/>
 			{JSON.stringify(values)}
+
+			<UserForm />
 		</div>
 	);
 }

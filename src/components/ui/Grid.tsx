@@ -16,7 +16,7 @@ const Grid = memo(function GridComponent({
 	className,
 	...rest
 }: GridProps) {
-	const clases = classNames(
+	const css = classNames(
 		"grid",
 		tailwindClassesMapping.gridCols[
 			gridCols as keyof typeof tailwindClassesMapping.gridCols
@@ -28,7 +28,7 @@ const Grid = memo(function GridComponent({
 	);
 
 	return (
-		<div className={clases} {...rest}>
+		<div className={css ? css : undefined} {...rest}>
 			{children}
 		</div>
 	);

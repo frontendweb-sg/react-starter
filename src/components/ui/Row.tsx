@@ -1,22 +1,22 @@
 import {memo, forwardRef} from "react";
 import type {PropsWithRef, PropsWithChildren, ForwardedRef} from "react";
 
-import type {Col} from "../../types";
+import type {Row} from "../../types";
 import {tailwindClassesMapping} from "../../utils/tailwind-css-utils";
 
 import classNames from "classnames";
 
-type ColProps = {className?: string; col?: Col};
-type Props = PropsWithRef<PropsWithChildren<ColProps>>;
+type RowProps = {className?: string; row?: Row};
+type Props = PropsWithRef<PropsWithChildren<RowProps>>;
 
-const Col = memo(
+const Row = memo(
 	forwardRef(function ColComponent(
-		{children, col, className, ...rest}: Props,
+		{children, row, className, ...rest}: Props,
 		ref: ForwardedRef<HTMLDivElement>,
 	) {
 		const css = classNames(
-			tailwindClassesMapping.cols[
-				col as keyof typeof tailwindClassesMapping.cols
+			tailwindClassesMapping.rows[
+				row as keyof typeof tailwindClassesMapping.rows
 			],
 			className,
 		);
@@ -29,4 +29,4 @@ const Col = memo(
 	}),
 );
 
-export default Col;
+export default Row;

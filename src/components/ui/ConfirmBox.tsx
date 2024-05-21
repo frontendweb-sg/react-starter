@@ -1,3 +1,4 @@
+import {memo} from "react";
 import {FaTimes} from "react-icons/fa";
 
 import {useAppState} from "../../hooks/useAppState";
@@ -9,7 +10,7 @@ type ConfirmBoxProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
 	label?: string;
 	onClose?: () => void;
 };
-export default function ConfirmBox({
+const ConfirmBox = memo(function Box({
 	label = AppContent.confirmBoxContent,
 	className,
 }: ConfirmBoxProps) {
@@ -21,7 +22,7 @@ export default function ConfirmBox({
 				id="popup-modal"
 				tabIndex={-1}
 				className={classNames(
-					"overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full",
+					"overflow-y-auto shadow-md overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center md:inset-0 h-[calc(100%-1rem)] max-h-full flex",
 					className,
 				)}
 				aria-hidden={!confirmState.visible}
@@ -79,4 +80,6 @@ export default function ConfirmBox({
 				className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
 		</>
 	);
-}
+});
+
+export default ConfirmBox;

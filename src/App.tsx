@@ -27,10 +27,11 @@ function App() {
 			},
 		});
 	};
+	console.log("open", open);
 	return (
 		<>
 			<button onClick={handleToggle}>Open Modal</button>
-			<Modal open={open} onClose={handleClose} label="Hi, I am modal">
+			<Modal size="md" open={open} onClose={handleClose} label="Hi, I am modal">
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit provident
 				beatae eius? Neque earum, voluptatum doloribus praesentium provident
 				pariatur sapiente nam sint accusantium cum sit, corrupti omnis deserunt

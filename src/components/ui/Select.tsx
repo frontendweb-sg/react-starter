@@ -1,164 +1,67 @@
-import {ReactElement, ReactNode, useRef} from "react";
-import {FaCaretDown, FaCaretUp, FaCheck} from "react-icons/fa6";
+import {ReactNode, useState} from "react";
+import {FaCaretDown, FaCaretUp} from "react-icons/fa";
 
 import useClickOutside from "../../hooks/useClickOutside";
-import useSelect from "../../hooks/useSelect";
+import useToggle from "../../hooks/useToggle";
+import {getRandomId} from "../../utils";
 import FormGroup from "./FormGroup";
 
 import classNames from "classnames";
-import upperFirst from "lodash/upperFirst";
 
 type SelectProps<T> = {
-	name: string;
-	value: string;
-	label?: string;
 	options: T[];
-	getOptionLabel?: (option: T) => string;
-	getOptionValue?: (option: T) => string | number | object;
-	renderOption?: (option: T) => ReactNode;
-	startIcon?: ReactElement;
-	onChange?: (name: string, option: string | T) => void;
+	label?: string;
+	name: string;
+	defalutValue?: T;
+	getOptionLabel?: (option: T) => ReactNode;
+	onChange?: (option: T) => void;
 };
-
 export default function Select<T>({
-	name,
-	value,
-	label,
 	options,
-	onChange,
-	startIcon,
-	renderOption,
 	getOptionLabel,
-	getOptionValue,
-	...rest
+	defalutValue,
+	onChange,
+	label,
 }: SelectProps<T>) {
-	const elemRef = useRef<HTMLDivElement>(null);
+	const [selected, setSelected] = useState<null | T>(defalutValue!);
+	const {open, handleClose, handleToggle} = useToggle();
 
-	const {
-		open,
-		selected,
-		handleClose,
-		setSelected,
-		handleToggle,
-		currentIndex,
-		handleKeyChange,
-		getLabel,
-		getValue,
-	} = useSelect({
-		options,
-		value,
-		getOptionValue,
-		getOptionLabel,
-	});
+	const optionLabel = (option: T) =>
+		getOptionLabel ? getOptionLabel(option) : option["label" as keyof T];
+	const getLabel = (option: T) =>
+		typeof option === "object" ? optionLabel(option) : option;
 
-	const handleChange = (option: T | string) => {
+	const handleChange = (option: T) => {
 		setSelected(option);
-		onChange?.(name, option);
+		onChange?.(option);
 	};
-
-	useClickOutside(elemRef, handleClose);
-
+	const elemRef = useClickOutside<HTMLDivElement>(handleClose);
 	return (
-		<FormGroup
-			label={label}
-			onKeyDown={handleKeyChange}
-			ref={elemRef}
-			{...rest}>
-			<SelectLabel
-				open={open}
-				label={upperFirst(selected as string)}
-				icon={startIcon}
-				onClick={handleToggle}
-			/>
-
+		<FormGroup label={label} className="relative z-10" ref={elemRef!}>
+			<div
+				className={classNames(
+					"ring-1 hover:ring-indigo-500 p-2 relative rounded-md",
+					open && "ring-indigo-500",
+				)}
+				onClick={handleToggle}>
+				<input
+					className="outline-none"
+					readOnly
+					value={getLabel(selected as T) as string}
+				/>
+				<span className="absolute right-2 ring-indigo-500 -translate-y-1/2 top-1/2">
+					{open ? <FaCaretUp className="ring-red-500" /> : <FaCaretDown />}
+				</span>
+			</div>
 			{open && (
-				<SelectDropdown>
-					{options.map((option: T, index) => (
-						<SelectItem
-							selected={index === currentIndex}
-							key={index}
-							onClick={() =>
-								handleChange(
-									(getOptionValue
-										? getValue(option)
-										: getLabel(option)) as string,
-								)
-							}>
-							{selected ===
-								(getOptionValue
-									? getValue(option)
-									: (getLabel(option) as string)) && (
-								<FaCheck className="mr-2" />
-							)}
-							{renderOption
-								? renderOption(option)
-								: (getLabel(option) as string)}
-						</SelectItem>
+				<div className="absolute  bg-white shadow-md w-full mt-1 p-2 rounded-b-md">
+					{options.map((option) => (
+						<div onClick={() => handleChange(option)} key={getRandomId()}>
+							{getLabel(option) as ReactNode}
+						</div>
 					))}
-				</SelectDropdown>
+				</div>
 			)}
 		</FormGroup>
-	);
-}
-
-type SelectDropdownProps = React.HtmlHTMLAttributes<HTMLDivElement>;
-function SelectDropdown({children}: SelectDropdownProps) {
-	return (
-		<div className="z-10 p-2 bg-white absolute rounded-lg shadow w-full dark:bg-gray-700">
-			<ul>{children}</ul>
-		</div>
-	);
-}
-
-type SelectItemProps = React.LiHTMLAttributes<HTMLLIElement> & {
-	selected?: boolean;
-};
-function SelectItem({children, className, selected, ...rest}: SelectItemProps) {
-	return (
-		<li
-			className={classNames(
-				"inline-flex w-full px-4 py-2 text-sm items-center text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white",
-				selected && "bg-gray-100",
-				className,
-			)}
-			{...rest}>
-			{children}
-		</li>
-	);
-}
-
-type SelectLabelProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
-	open: boolean;
-	icon?: ReactElement;
-	label: string;
-};
-
-function SelectLabel({
-	open,
-	icon,
-	className,
-	label,
-	...rest
-}: SelectLabelProps) {
-	return (
-		<div
-			role="combobox"
-			className={classNames(
-				"flex items-center ring-slate-800 cursor-pointer hover:bg-gray-50 border border-gray-150 rounded-md pr-3",
-				className,
-			)}
-			{...rest}>
-			{icon && <span className="pl-3">{icon}</span>}
-			<input
-				readOnly
-				value={label}
-				className="text-sm cursor-pointer font-lato bg-transparent w-full p-3 outline-none placeholder:font-normal"
-			/>
-			{open ? (
-				<FaCaretUp className="text-slate-600" />
-			) : (
-				<FaCaretDown className="text-slate-400" />
-			)}
-		</div>
 	);
 }

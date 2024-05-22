@@ -1,22 +1,19 @@
-import {useCallback, useEffect, RefObject} from "react";
+import {useEffect, useRef} from "react";
 
 export default function useClickOutside<T extends HTMLElement>(
-	ref: RefObject<T>,
 	fn?: () => void,
 ) {
-	const handler = useCallback(
-		(event: Event) => {
+	const ref = useRef<T>(null);
+	useEffect(() => {
+		const handleClick = (event: Event) => {
 			if (ref.current && !ref.current.contains(event.target as Node)) {
 				fn?.();
 			}
-		},
-		[ref, fn],
-	);
-
-	useEffect(() => {
-		document.addEventListener("click", handler);
-		return () => {
-			document.removeEventListener("click", handler);
 		};
-	}, [handler]);
+		document.addEventListener("click", handleClick);
+		return () => {
+			document.removeEventListener("click", handleClick);
+		};
+	}, [fn]);
+	return ref;
 }

@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {FaPlus, FaTrash} from "react-icons/fa";
 import {FaPencil} from "react-icons/fa6";
 
@@ -32,6 +33,8 @@ interface Person {
 type PersonKey = keyof Person;
 
 function App() {
+	const [value, setValue] = useState("one");
+	const [item, setItems] = useState("");
 	const {open, handleOpen, handleClose} = useToggle();
 	const {handleConfirm} = useAppState();
 	const {values, handleChange, setFieldValue, handleSubmit} = useFormik({
@@ -99,8 +102,14 @@ function App() {
 		{id: 4, lastName: "Stark", firstName: "Arya", age: 16},
 	];
 
+	const Values = [
+		{id: 1, label: "One", value: "one"},
+		{id: 2, label: "Two", value: "two"},
+		{id: 3, label: "Three", value: "three"},
+		{id: 4, label: "Four", value: "four"},
+	];
 	return (
-		<Grid cols="4" className="p-4 gap-5">
+		<Grid cols="3" className="p-4 gap-5">
 			<Col>
 				<Table columns={COLUMNS} rows={ROWS} />
 			</Col>
@@ -110,11 +119,11 @@ function App() {
 						User form
 					</Typography>
 					<Select
-						value={values.userName}
+						name="item"
+						defalutValue={ROWS[0]}
+						label="Item"
 						options={ROWS}
-						name="userName"
 						getOptionLabel={(option) => option.firstName}
-						onChange={setFieldValue}
 					/>
 					<Input
 						placeholder="Name"

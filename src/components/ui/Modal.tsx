@@ -31,7 +31,6 @@ const ModalComponent = memo(function ({
 	className,
 	...rest
 }: ModalProps) {
-	console.log("Hi");
 	if (!open) return null;
 
 	const closeButtonElement = (
@@ -44,6 +43,7 @@ const ModalComponent = memo(function ({
 			<span className="sr-only">Close modal</span>
 		</button>
 	);
+
 	return (
 		<>
 			<div
@@ -80,7 +80,7 @@ const ModalComponent = memo(function ({
 				</div>
 			</div>
 			<div
-				modal-backdrop=""
+				onClick={onClose}
 				className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
 		</>
 	);

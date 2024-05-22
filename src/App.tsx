@@ -1,10 +1,25 @@
-import {FaTrash} from "react-icons/fa";
+import {FaPlus, FaTrash} from "react-icons/fa";
 import {FaPencil} from "react-icons/fa6";
 
+import Accordion from "./components/ui/Accordion";
+import Button from "./components/ui/Button";
+import CheckboxGroup from "./components/ui/CheckboxGroup";
 import Col from "./components/ui/Col";
 import ConfirmBox from "./components/ui/ConfirmBox";
+import Form from "./components/ui/Form";
 import Grid from "./components/ui/Grid";
+import IconButton from "./components/ui/IconButton";
+import Input from "./components/ui/Input";
+import Modal from "./components/ui/Modal";
+import RadioGroup from "./components/ui/RadioGroup";
+import Select from "./components/ui/Select";
 import Table, {type ColumnProps} from "./components/ui/Table";
+import Textarea from "./components/ui/Textarea";
+import Typography from "./components/ui/Typography";
+import {useAppState} from "./hooks/useAppState";
+import useToggle from "./hooks/useToggle";
+
+import {useFormik} from "formik";
 
 interface Person {
 	id: string | number;
@@ -17,6 +32,21 @@ interface Person {
 type PersonKey = keyof Person;
 
 function App() {
+	const {open, handleOpen, handleClose} = useToggle();
+	const {handleConfirm} = useAppState();
+	const {values, handleChange, setFieldValue, handleSubmit} = useFormik({
+		initialValues: {
+			name: "",
+			email: "",
+			userName: "Snow",
+			gender: "male",
+			skills: [],
+			summary: "",
+		},
+		onSubmit(values) {
+			console.log("values", values);
+		},
+	});
 	const COLUMNS: ColumnProps<Person, PersonKey>[] = [
 		{
 			field: "id",
@@ -32,7 +62,7 @@ function App() {
 			),
 		},
 		{field: "firstName", headerName: "First name", width: 130},
-		{field: "fullName", headerName: "Last name", width: 130},
+		{field: "fullName", headerName: "Last name"},
 		{
 			field: "age",
 			headerName: "Age",
@@ -40,17 +70,23 @@ function App() {
 		},
 		{
 			field: "id",
-			headerName: "Action",
+			headerName: (
+				<button onClick={() => alert("hi")}>
+					<FaPlus />
+				</button>
+			),
 			renderProps: (option: Person) => {
 				return (
-					<>
-						<button onClick={() => alert(JSON.stringify(option))}>
-							<FaTrash />
-						</button>
-						<button>
-							<FaPencil />
-						</button>
-					</>
+					<div className="space-x-2">
+						<IconButton onClick={() => alert(JSON.stringify(option))}>
+							<FaPencil size={14} />
+						</IconButton>
+						<IconButton
+							color="danger"
+							onClick={() => alert(JSON.stringify(option))}>
+							<FaTrash size={14} />
+						</IconButton>
+					</div>
 				);
 			},
 		},
@@ -61,25 +97,122 @@ function App() {
 		{id: 2, lastName: "Lannister", firstName: "Cersei", age: 42},
 		{id: 3, lastName: "Lannister", firstName: "Jaime", age: 45},
 		{id: 4, lastName: "Stark", firstName: "Arya", age: 16},
-		{id: 5, lastName: "Targaryen", firstName: "Daenerys", age: 12},
-		{id: 6, lastName: "Melisandre", firstName: "", age: 150},
-		{id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44},
-		{id: 8, lastName: "Frances", firstName: "Rossini", age: 36},
-		{id: 9, lastName: "Roxie", firstName: "Harvey", age: 65},
 	];
 
 	return (
-		<div className="p-5">
-			<Table columns={COLUMNS} rows={ROWS} />
+		<Grid cols="4" className="p-4 gap-5">
+			<Col>
+				<Table columns={COLUMNS} rows={ROWS} />
+			</Col>
+			<Col>
+				<Form onSubmit={handleSubmit}>
+					<Typography gutterBottom variant="h1">
+						User form
+					</Typography>
+					<Select
+						value={values.userName}
+						options={ROWS}
+						name="userName"
+						getOptionLabel={(option) => option.firstName}
+						onChange={setFieldValue}
+					/>
+					<Input
+						placeholder="Name"
+						name="name"
+						value={values.name}
+						onChange={handleChange}
+					/>
+					<Input
+						placeholder="Email"
+						name="email"
+						value={values.email}
+						onChange={handleChange}
+					/>
+					<RadioGroup
+						defaultValue={values.gender}
+						onChange={handleChange}
+						options={[
+							{name: "gender", value: "male", label: "Male"},
+							{name: "gender", value: "female", label: "Female"},
+							{name: "gender", value: "unknown", label: "Unknown"},
+						]}
+					/>
+					<CheckboxGroup
+						label="Skills"
+						defaultValues={values.skills}
+						onChange={handleChange}
+						options={[
+							{name: "skills", value: "html", label: "Html"},
+							{name: "skills", value: "css", label: "Css"},
+							{name: "skills", value: "js", label: "Js"},
+							{name: "skills", value: "react", label: "React"},
+							{name: "skills", value: "next", label: "Next"},
+						]}
+					/>
+					<Textarea
+						rows={5}
+						placeholder="Summary"
+						name="summary"
+						value={values.summary}
+						onChange={handleChange}
+					/>
+					<Button block className="mb-5">
+						Submit
+					</Button>
+					{JSON.stringify(values, null, 4)}
+				</Form>
+			</Col>
+			<Col>
+				<Typography gutterBottom>Accordion</Typography>
+				<Accordion className="space-y-2">
+					<Accordion.Item>
+						<Accordion.Header>Hello world</Accordion.Header>
+						<Accordion.Content>
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+							esse quas nobis? Ratione dolorem quae veritatis asperiores porro.
+							Ullam, nostrum! Nobis officia iure in obcaecati. Illo, inventore
+							officiis? Cum, labore.
+						</Accordion.Content>
+					</Accordion.Item>
+					<Accordion.Item>
+						<Accordion.Header>Hello world 1</Accordion.Header>
+						<Accordion.Content>
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+							esse quas nobis? Ratione dolorem quae veritatis asperiores porro.
+							Ullam, nostrum! Nobis officia iure in obcaecati. Illo, inventore
+							officiis? Cum, labore.
+						</Accordion.Content>
+					</Accordion.Item>
+				</Accordion>
 
-			<button>Open</button>
-			<ConfirmBox />
+				<Typography gutterBottom className="mt-5">
+					Modals
+				</Typography>
 
-			<Grid cols="2">
-				<Col>A</Col>
-				<Col>B</Col>
-			</Grid>
-		</div>
+				<div className="space-x-4">
+					<Button onClick={handleOpen}>Modal</Button>
+					<Button
+						onClick={() =>
+							handleConfirm({
+								onSubmit() {
+									alert("deleted");
+								},
+							})
+						}
+						color="danger"
+						icon={<FaTrash size={12} />}>
+						Delte
+					</Button>
+				</div>
+				<Modal label="Modal" size="md" open={open} onClose={handleClose}>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio
+					maxime perspiciatis sit ea quam labore corporis explicabo doloremque
+					nobis laboriosam repellendus, at reiciendis perferendis nulla commodi
+					rerum ratione sequi illum!
+				</Modal>
+				<ConfirmBox />
+			</Col>
+		</Grid>
 	);
 }
 

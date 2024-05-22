@@ -1,4 +1,5 @@
 import {createContext, useContext} from "react";
+import {FaCaretUp} from "react-icons/fa";
 import {FaCaretDown} from "react-icons/fa6";
 
 import useToggle from "../../hooks/useToggle";
@@ -39,15 +40,13 @@ function AccordionItem({children, ...rest}: AccordionItemProps) {
 
 type AccordionHeaderProps = AccordionProps;
 function AccordionHeader({children}: AccordionHeaderProps) {
-	const {handleToggle} = useAccordion();
+	const {handleToggle, open} = useAccordion();
 	return (
 		<div
 			className="flex justify-between items-center p-2"
 			onClick={handleToggle}>
 			{children}
-			<button>
-				<FaCaretDown />
-			</button>
+			<button>{open ? <FaCaretUp /> : <FaCaretDown />}</button>
 		</div>
 	);
 }

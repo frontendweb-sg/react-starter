@@ -9,7 +9,7 @@ import TableRow from "./TableRow";
 export type ColumnProps<T, K extends keyof T> = {
 	id?: string;
 	field: K;
-	headerName: string;
+	headerName: ReactNode;
 	description?: string;
 	sortable?: boolean;
 	valueGetter?: (option: T, column: K) => ReactNode;
@@ -31,9 +31,9 @@ type TableProps<T, K extends keyof T> = {
 function Table<T, K extends keyof T>({rows, columns}: TableProps<T, K>) {
 	return (
 		<>
-			<table className="table-auto">
+			<table className="table-auto rounded-md">
 				<TableHead>
-					<TableRow>
+					<TableRow className="rounded-t-md overflow-hidden">
 						{columns.map((column) => (
 							<TableCell width={column.width} key={getRandomId()}>
 								{column["headerName"]}

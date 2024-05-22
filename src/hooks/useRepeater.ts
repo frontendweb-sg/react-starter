@@ -18,7 +18,7 @@ export default function useRepeater<T>({initialValue}: RepeaterProps<T>) {
 	};
 	const removeItem = (id?: string | number) => {
 		const copyState = [...state];
-		copyState.splice(index, 1);
+		console.log("id", id);
 		setState(copyState);
 	};
 	console.log("state", state);

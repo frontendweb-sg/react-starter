@@ -1,3 +1,6 @@
+import {FaTrash} from "react-icons/fa";
+import {FaPencil} from "react-icons/fa6";
+
 import Col from "./components/ui/Col";
 import ConfirmBox from "./components/ui/ConfirmBox";
 import Grid from "./components/ui/Grid";
@@ -11,10 +14,10 @@ interface Person {
 	fullName?: string;
 }
 
-// type PersonKey = keyof Person;
+type PersonKey = keyof Person;
 
 function App() {
-	const COLUMNS: ColumnProps<Person, keyof Person>[] = [
+	const COLUMNS: ColumnProps<Person, PersonKey>[] = [
 		{
 			field: "id",
 			headerName: "ID",
@@ -34,6 +37,22 @@ function App() {
 			field: "age",
 			headerName: "Age",
 			width: 90,
+		},
+		{
+			field: "id",
+			headerName: "Action",
+			renderProps: (option: Person) => {
+				return (
+					<>
+						<button onClick={() => alert(JSON.stringify(option))}>
+							<FaTrash />
+						</button>
+						<button>
+							<FaPencil />
+						</button>
+					</>
+				);
+			},
 		},
 	];
 
